@@ -1,52 +1,73 @@
 const http = require("http");
 const fs = require("fs");
+const express = require("express");
+const morgan = require("morgan");
+
+const server = express();
 
 const index = fs.readFileSync("index.html", "utf-8");
-const data = JSON.parse(fs.readFileSync("product.json", "utf-8"));
-const product1 = data.products[0];
-const product = data.products;
+const data = fs.readFileSync("product.json", "utf-8");
 
-const server = http.createServer((req, res) => {
-  console.log("server started");
-  console.log(req.url);
+// MIDDLEWARE
 
-  if (req.url.startsWith("/product")) {
-    console.log(req.url);
-    const prdId = req.url.split("/")[2];
-    console.log(prdId);
-    const productGet = product.find((p) => p.id === +prdId);
-    console.log(productGet);
-    res.setHeader("Content-Type", "text/html");
-    const modifiedIndex = index
-      .replace("**title**", productGet.title)
-      .replace("**url**", productGet.thumbnail)
-      .replace("**price**", productGet.price)
-      .replace("**rating**", productGet.rating);
-    res.end(modifiedIndex);
-    return;
+// server.use((req, res, next) => {
+//   console.log(req.method, req.ip, req.hostname, req.get("User-Agent"));
+//   next();
+// });
+
+// use for body payload json access ... before this we can use bodyparser for access this payload
+
+server.use(express.json());
+
+// for using to access public files... added files in public folder
+server.use(express.static("public"));
+
+// 3rd party morgan use for middleware
+//dev is mothod for data to get
+// server.use(morgan("dev"));
+server.use(morgan("default"));
+// custome middleware
+
+const auth = (req, res, next) => {
+  console.log(req.query);
+  if (req.body.password === "123") {
+    next();
+  } else {
+    res.sendStatus(401);
   }
+};
 
-  switch (req.url) {
-    case "/":
-      res.setHeader("Content-Type", "application/json");
-      res.end(JSON.stringify(data));
-      break;
-    case "/product":
-      res.setHeader("Content-Type", "text/html");
-      const modifiedIndex = index
-        .replace("**title**", product1.title)
-        .replace("**url**", product1.thumbnail)
-        .replace("**price**", product1.price)
-        .replace("**rating**", product1.rating);
-      res.end(modifiedIndex);
-      break;
-    default:
-      res.writeHead(404, "Not Found here");
-      res.end(JSON.stringify(data));
-  }
+// server.use(auth);
+// API ENDPOINTS
 
-  //   res.setHeader("Content-Type", "application/json");
-  //   res.setHeader("dummt", "dummyjson");
+server.get("/product/:id", (req, res) => {
+  console.log(req.params);
+  res.send(req.params);
+});
+server.get("/", auth, (req, res) => {
+  res.send({ type: "GET" });
+});
+server.post("/", auth, (req, res) => {
+  res.json({ type: "post" });
+});
+server.put("/", (req, res) => {
+  res.json({ type: "put" });
+});
+server.delete("/", (req, res) => {
+  res.json({ type: "delete" });
+});
+server.patch("/", (req, res) => {
+  res.json({ type: "patch" });
 });
 
-server.listen(8080);
+server.get("/demo", (req, res) => {
+  res.status(300).json(data);
+  // res.sendStatus(400);
+  // res.send("data");
+  // res.sendFile(`E:/Tech/12 hours/12-hours/index.html`);
+  console.log("server is called");
+});
+
+server.listen(8080, () => {
+  console.log("server 8080 is on");
+});
