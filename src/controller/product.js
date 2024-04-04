@@ -1,47 +1,106 @@
 const fs = require("fs");
 const express = require("express");
 const index = fs.readFileSync("index.html", "utf-8");
-const data = JSON.parse(fs.readFileSync("product.json", "utf-8"));
-const ProductData = data.products;
-const createProducts = (req, res) => {
-  console.log(req.body);
-  ProductData.push(req.body);
-  res.status(201).send(req.body);
+const model = require("../model/product");
+const Product = model.Product;
+
+// Create
+
+const createProducts = async (req, res) => {
+  const products = new Product(req.body);
+  products
+    .save()
+    .then((result) => {
+      res
+        .status(201)
+        .send({ data: result, message: "data saved successfully" });
+    })
+    .catch((error) => {
+      res
+        .status(410)
+        .send({ data: error, message: "data not saved successfully" });
+    });
+
+  // const result = await products.save();
+  // res.status(201).send({data:result,message:"data saved successfully"})
 };
 
-const getAllProducts = (req, res) => {
-  res.json(ProductData);
+// Read
+
+const getAllProducts = async (req, res) => {
+  try {
+    const products = await Product.find();
+    res
+      .status(200)
+      .send({ data: products, message: "Data fetched successfully" });
+  } catch (error) {
+    res.status(404).send(error);
+    console.log(error);
+  }
 };
 
-const getProduct = (req, res) => {
-  const id = +req.params.id;
-  const product = ProductData.find((p) => p.id === id);
-  console.log(product);
-  res.json(product);
+const getProduct = async (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  try {
+    const products = await Product.findOne({ _id: id });
+    res
+      .status(200)
+      .send({ data: products, message: "Data fetched successfully" });
+  } catch (error) {
+    res.status(404).send(error);
+    console.log(error);
+  }
 };
 
-const replaceProduct = (req, res) => {
-  const id = +req.params.id;
-  const productId = ProductData.findIndex((p) => p.id === id);
-  const products = ProductData.splice(productId, 1, { ...req.body, id: id });
-  res.status(201).send({ message: "product updated successfully" });
+// Replace
+
+const replaceProduct = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const product = await Product.findOneAndReplace({ _id: id }, req.body, {
+      new: true,
+    });
+    res
+      .status(200)
+      .send({ data: product, message: "Product replaced successfully" });
+  } catch (error) {
+    res.status(404).send(error);
+    console.log(error);
+  }
 };
 
-const updatedProduct = (req, res) => {
-  const id = +req.params.id;
-  const productId = ProductData.findIndex((p) => p.id === id);
-  const product = ProductData[productId];
-  const products = ProductData.splice(productId, 1, {
-    ...product,
-    ...req.body,
-  });
-  res.status(201).send({ message: "product updated successfully" });
+// Update
+
+const updatedProduct = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const product = await Product.findOneAndUpdate({ _id: id }, req.body, {
+      new: true,
+    });
+    res.status(200).send({
+      data: product,
+      messgae: "Product Updated successfully",
+    });
+  } catch (error) {
+    res.status(404).send(error);
+    console.log(error);
+  }
 };
-const deleteProduct = (req, res) => {
-  const id = +req.params.id;
-  const productId = ProductData.findIndex((p) => p.id === id);
-  const products = ProductData.splice(productId, 1);
-  res.status(201).send({ message: "product deleted successfully" });
+
+// Delete
+
+const deleteProduct = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const product = await Product.deleteOne({ _id: id });
+    res
+      .status(200)
+      .send({ data: product, messgae: "Product Deleted successfully" });
+  } catch (error) {
+    res.status(404).send(error);
+    console.log(error);
+  }
 };
 
 module.exports = {
