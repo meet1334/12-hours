@@ -1,27 +1,37 @@
-const http = require("http");
-const fs = require("fs");
+const express = require("express");
+const morgan = require("morgan");
+const server = express();
+const cors = require("cors");
+const path = require("path");
+const productRouter = require("./src/routes/product");
+const userRouter = require("./src/routes/user");
+const dotenv = require("dotenv");
+dotenv.config();
+const port = process.env.PORT ?? 8000;
+const public_dir = process.env.PUBLIC_DIR ?? "public";
+const mongoose = require("mongoose");
+// db connection
+main().catch((err) => console.log(err));
+async function main() {
+  await mongoose.connect(process.env.MONGODB_URI);
+  console.log("db connection established");
+}
 
-const data = fs.readFileSync("product.json", "utf-8");
+// Bodyparsers
+server.use(express.json());
+server.use(cors());
+// server.use(morgan, "default");
+server.use(express.static(path.resolve(__dirname, public_dir)));
 
-const server = http.createServer((req, res) => {
-  console.log(req.url);
+// routes
+server.use("/api/products", productRouter.router);
+server.use("/api/users", userRouter.router);
 
-  switch (req.url) {
-    case "/":
-      res.setHeader("Content-Type", "application/json");
-      res.end(data);
-      break;
-    case "/product":
-      res.setHeader("Content-Type", "text/html");
-      res.end(data);
-      break;
-    default:
-      res.writeHead(404, "Not Found here");
-      res.end(data);
-  }
-  console.log("server started");
-//   res.setHeader("Content-Type", "application/json");
-//   res.setHeader("dummt", "dummyjson");
+// listen server
+
+server.listen(port, () => {
+  console.log(process.env.PORT);
+  console.log(`server started on port ${port}`);
 });
 
-server.listen(8080);
+module.exports = server;
