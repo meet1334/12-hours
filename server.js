@@ -4,7 +4,6 @@ const server = express();
 const cors = require("cors");
 const path = require("path");
 const productRouter = require("./src/routes/product");
-const userRouter = require("./src/routes/user");
 const dotenv = require("dotenv");
 dotenv.config();
 const port = process.env.PORT ?? 8000;
@@ -25,7 +24,6 @@ server.use(express.static(path.resolve(__dirname, public_dir)));
 
 // routes
 server.use("/api/products", productRouter.router);
-server.use("/api/users", userRouter.router);
 
 // listen server
 
