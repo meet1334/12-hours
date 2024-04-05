@@ -1,6 +1,6 @@
 const fs = require("fs");
 const express = require("express");
-const index = fs.readFileSync("index.html", "utf-8");
+// const index = fs.readFileSync("index.html", "utf-8");
 const model = require("../model/product");
 const Product = model.Product;
 

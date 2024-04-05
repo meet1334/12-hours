@@ -1,6 +1,6 @@
 const fs = require("fs");
 const express = require("express");
-const index = fs.readFileSync("index.html", "utf-8");
+// const index = fs.readFileSync("index.html", "utf-8");
 const data = JSON.parse(fs.readFileSync("product.json", "utf-8"));
 const UserData = data.users;
 const createUsers = (req, res) => {
