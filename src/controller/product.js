@@ -2,7 +2,27 @@ const fs = require("fs");
 const express = require("express");
 const index = fs.readFileSync("index.html", "utf-8");
 const model = require("../model/product");
+const ejs = require("ejs");
+const path = require("path");
 const Product = model.Product;
+
+const getAllProductsSSR = async (req, res) => {
+  try {
+    const products = await Product.find();
+    console.log(products[0]);
+    ejs.renderFile(
+      path.resolve("../pages/index.ejs"),
+      { product: products[0] },
+      (err, resl) => {
+        console.log("fdfsdmk");
+        res.send(resl);
+      }
+    );
+  } catch (error) {
+    res.status(404).send(error);
+    console.log(error);
+  }
+};
 
 // Create
 
@@ -110,4 +130,5 @@ module.exports = {
   updatedProduct,
   replaceProduct,
   deleteProduct,
+  getAllProductsSSR,
 };
