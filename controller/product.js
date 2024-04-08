@@ -1,18 +1,19 @@
 const fs = require("fs");
 const express = require("express");
-const index = fs.readFileSync("index.html", "utf-8");
+// const index = fs.readFileSync("index.html", "utf-8");
 const model = require("../model/product");
 const ejs = require("ejs");
 const path = require("path");
 const Product = model.Product;
 
+// ejs controllers
 const getAllProductsSSR = async (req, res) => {
   try {
     const products = await Product.find();
     console.log(products[0]);
     ejs.renderFile(
-      path.resolve("../pages/index.ejs"),
-      { product: products[0] },
+      path.resolve(__dirname, "../pages/index.ejs"),
+      { products: products },
       (err, resl) => {
         console.log("fdfsdmk");
         res.send(resl);
@@ -24,6 +25,20 @@ const getAllProductsSSR = async (req, res) => {
   }
 };
 
+const getAddFormProductsSSR =async(req,res)=>{
+try {
+  ejs.renderFile(
+    path.resolve(__dirname, "../pages/addProduct.ejs"),
+    (err, resl) => {
+      console.log("fdfsdmk");
+      res.send(resl);
+    }
+  );
+} catch (error) {
+  res.status(404).send(error);
+  console.log(error);
+}
+}
 // Create
 
 const createProducts = async (req, res) => {
@@ -131,4 +146,5 @@ module.exports = {
   replaceProduct,
   deleteProduct,
   getAllProductsSSR,
+  getAddFormProductsSSR
 };
