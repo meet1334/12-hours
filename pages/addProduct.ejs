@@ -7,55 +7,241 @@
     <title>ADD PRODUCTS</title>
 </head>
 <style>
-    .input {
-        width: 280px;
-        padding: 2px 4px;
-        margin: 3px 4px;
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;900&display=swap');
+
+    *,
+    body {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 400;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    html,
+    body {
+        height: 100%;
+        background-color: #152733;
+        overflow: hidden;
+    }
+
+
+    .form-holder {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        min-height: 100vh;
+    }
+
+    .form-holder .form-content {
+        position: relative;
+        text-align: center;
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-align-items: center;
+        align-items: center;
+        padding: 60px;
+    }
+
+    .form-content .form-items {
+        border: 3px solid #fff;
+        padding: 40px;
+        display: inline-block;
+        width: 100%;
+        min-width: 540px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        text-align: left;
+        -webkit-transition: all 0.4s ease;
+        transition: all 0.4s ease;
+    }
+
+    .form-content h3 {
+        color: #fff;
+        text-align: left;
+        font-size: 28px;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+
+    .form-content h3.form-title {
+        margin-bottom: 30px;
+    }
+
+    .form-content p {
+        color: #fff;
+        text-align: left;
+        font-size: 17px;
+        font-weight: 300;
+        line-height: 20px;
+        margin-bottom: 30px;
+    }
+
+
+    .form-content label,
+    .was-validated .form-check-input:invalid~.form-check-label,
+    .was-validated .form-check-input:valid~.form-check-label {
+        color: #fff;
+    }
+
+    .form-content input[type=text],
+    .form-content input[type=number],
+
+    .form-content select {
+        width: 100%;
+        padding: 9px 20px;
+        text-align: left;
+        border: 0;
+        outline: 0;
+        border-radius: 6px;
+        background-color: #fff;
+        font-size: 15px;
+        font-weight: 300;
+        color: #8D8D8D;
+        -webkit-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+        margin-top: 16px;
+    }
+
+
+    .btn-primary {
+        background-color: #6C757D;
+        outline: none;
+        border: 0px;
+        box-shadow: none;
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus,
+    .btn-primary:active {
+        background-color: #495056;
+        outline: none !important;
+        border: none !important;
+        box-shadow: none;
+    }
+
+    .form-content textarea {
+        position: static !important;
+        width: 100%;
+        padding: 8px 20px;
+        border-radius: 6px;
+        text-align: left;
+        background-color: #fff;
+        border: 0;
+        font-size: 15px;
+        font-weight: 300;
+        color: #8D8D8D;
+        outline: none;
+        resize: none;
+        height: 120px;
+        -webkit-transition: none;
+        transition: none;
+        margin-bottom: 14px;
+    }
+
+    .form-content textarea:hover,
+    .form-content textarea:focus {
+        border: 0;
+        background-color: #ebeff8;
+        color: #8D8D8D;
+    }
+
+    .mv-up {
+        margin-top: -9px !important;
+        margin-bottom: 8px !important;
+    }
+
+    .invalid-feedback {
+        color: #ff606e;
+    }
+
+    .valid-feedback {
+        color: #2acc80;
+    }
+
+    .submit {
+        margin-top: 730px;
+        margin-left: -600px;
+        width: 120px !important;
+        padding: 10px 20px;
+
     }
 </style>
 <script type="text/javascript">
-    // const deleteProduct = async (id) => {
-    //     console.log(id);
-    //     const response = await fetch('/api/products/' + id, {
-    //         method: 'DELETE',
-    //     });
-    //     const doc = await response.json();
-    //     console.log(doc);
-    //     const el = document.getElementById(doc.id);
-    //     el.remove();
-    // }
+
 </script>
 
-<body style=" background-color: antiquewhite;">
-    <h1>form</h1>
-    <form method="post" action="/api/products" enctype="application/x-www-form-urlencoded">
+<body style=" background-color: black;">
+    <div class="form-body">
+        <div class="row">
+            <div class="form-holder">
+                <div class="form-content">
+                    <div class="form-items">
+                        <h3>Register Today</h3>
+                        <p>Fill in the data below.</p>
+                        <form class="requires-validation" novalidate method="post" action="/api/products"
+                            enctype="application/x-www-form-urlencoded">
 
-        <label for="title">Title:</label>
-        <input type="text" id="title" class="input" placeholder="title" name="title"><br><br><br>
-        <label for="Thubnails">Thumbnail:</label>
-        <input type="text" id="Thubnails" class="input" placeholder="Thumbnail" name="thumbnail"><br><br><br>
-        <label for="rating">Rating:</label>
-        <input type="number" id="rating" class="input" placeholder="Rating" name="rating"><br><br><br>
-        <label for="price">Price:</label>
-        <input type="number" id="price" class="input" placeholder="Price" name="price"><br><br><br>
-        <label for="discountPercentage">discountPercentage:</label>
-        <input type="number" id="discountPercentage" class="input" placeholder="discountPercentage" name="discountPercentage"><br><br><br>
-        <label for="Stock">Stock:</label>
-        <input type="number" id="Stock" class="input" placeholder="Stock" name="stock"><br><br><br>
-        <label for="Stock">Brand:</label>
-        <select name="brand" class="input">
-            <option value="apple">Apple</option>
-            <option value="micromax">Micromax</option>
-            <option value="lava">Lava</option>
-        </select><br><br><br>
-        <label for="Stock">Category:</label>
-        <select name="category" class="input">
-            <option value="laptop">Laptop</option>
-            <option value="Mobile">Mobile</option>
-            <option value="Watch">Watch</option>
-        </select><br><br><br>
-        <button type="submit">ADD</button>
-    </form>
+                            <div class="col-md-12">
+                                <input class="form-control" type="text" name="title" placeholder="Title" required>
+                            </div>
+                            <div class="col-md-12">
+                                <input class="form-control" type="text" name="thumbnail" placeholder="Thumbnail"
+                                    required>
+                            </div>
+
+                            <div class="col-md-12">
+                                <input class="form-control" type="number" name="price" placeholder="Price" required>
+                            </div>
+                            <div class="col-md-12">
+                                <input class="form-control" type="number" name="rating" placeholder="Rating" required>
+                            </div>
+                            <div class="col-md-12">
+                                <input class="form-control" type="number" name="stock" placeholder="Stock" required>
+                            </div>
+                            <div class="col-md-12">
+                                <input class="form-control" type="number" name="discountPercentage"
+                                    placeholder="Discount Percentage" required>
+                            </div>
+                           
+
+                            <div class="col-md-12">
+                                <select class="form-select mt-3" name="brand" required>
+                                    <option selected disabled value="">Samsung</option>
+                                    <option value="apple">Apple</option>
+                                    <option value="micromax">Micromax</option>
+                                    <option value="lava">Lava</option>
+                                </select>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select mt-3" name="category" required>
+                                    <option selected disabled value="">Phone</option>
+                                    <option value="laptop">Laptop</option>
+                                    <option value="Mobile">Mobile</option>
+                                    <option value="Watch">Watch</option>
+                                </select>
+                            </div>
+                    </div>
+
+
+                    <div class="form-button mt-3 col-md-12">
+                        <button id="submit" type="submit" class="btn btn-primary submit">ADD</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
 
 
 
