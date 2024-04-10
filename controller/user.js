@@ -1,51 +1,103 @@
 const fs = require("fs");
 const express = require("express");
-const index = fs.readFileSync("index.html", "utf-8");
-const data = JSON.parse(fs.readFileSync("product.json", "utf-8"));
-const UserData = data.users;
-const createUsers = (req, res) => {
-  console.log(req.body);
-  UserData.push(req.body);
-  res.status(201).send(req.body);
+// const index = fs.readFileSync("index.html", "utf-8");
+const model = require("../model/user");
+const ejs = require("ejs");
+const path = require("path");
+const User = model.User;
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
+dotenv.config();
+
+// Create
+
+// const createUsers = async (req, res) => {
+//   const users = new User(req.body);
+//   var token = jwt.sign({ email: req.body.email }, process.env.SECRET_KEY);
+//   users.token = token;
+//   users
+//     .save()
+//     .then((result) => {
+//       res
+//         .status(201)
+//         .send({ data: result, message: "data saved successfully" });
+//     })
+//     .catch((error) => {
+//       res
+//         .status(410)
+//         .send({ data: error, message: "data not saved successfully" });
+//     });
+// };
+
+// Read
+
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+    res.status(200).send({ data: users, message: "Data fetched successfully" });
+  } catch (error) {
+    res.status(404).send(error);
+    console.log(error);
+  }
 };
 
-const getAllUsers = (req, res) => {
-  res.json(UserData);
+const getUsers = async (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  try {
+    const users = await User.findOne({ _id: id });
+    res.status(200).send({ data: users, message: "Data fetched successfully" });
+  } catch (error) {
+    res.status(404).send(error);
+    console.log(error);
+  }
 };
 
-const getUsers = (req, res) => {
-  const id = +req.params.id;
-  const user = UserData.find((p) => p.id === id);
-  console.log(user);
-  res.json(user);
+// Replace
+
+const replaceUser = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const user = await User.findOneAndReplace({ _id: id }, req.body, {
+      new: true,
+    });
+    res.status(200).send({ data: user, message: "Data replaced successfully" });
+  } catch (error) {
+    res.status(404).send(error);
+    console.log(error);
+  }
 };
 
-const replaceUser = (req, res) => {
-  const id = +req.params.id;
-  const userId = UserData.findIndex((p) => p.id === id);
-  const users = UserData.splice(userId, 1, { ...req.body, id: id });
-  res.status(201).send({ message: "user updated successfully" });
+// Update
+
+const updatedUser = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const user = await User.findByIdAndUpdate({ _id: id }, req.body, {
+      new: true,
+    });
+    res.status(200).send({ data: user, message: "Data updated successfully" });
+  } catch (error) {
+    res.status(404).send(error);
+    console.log(error);
+  }
 };
 
-const updatedUser = (req, res) => {
-  const id = +req.params.id;
-  const userId = UserData.findIndex((p) => p.id === id);
-  const user = UserData[userId];
-  const users = UserData.splice(userId, 1, {
-    ...user,
-    ...req.body,
-  });
-  res.status(201).send({ message: "user updated successfully" });
-};
-const deleteUser = (req, res) => {
-  const id = +req.params.id;
-  const userId = UserData.findIndex((p) => p.id === id);
-  const users = UserData.splice(userId, 1);
-  res.status(201).send({ message: "user deleted successfully" });
+// Delete
+
+const deleteUser = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const user = await User.deleteOne({ _id: id });
+    res.status(200).send({ data: user, message: "Data deleted successfully" });
+  } catch (error) {
+    res.status(404).send(error);
+    console.log(error);
+  }
 };
 
 module.exports = {
-  createUsers,
+  // createUsers,
   getAllUsers,
   getUsers,
   updatedUser,

@@ -19,3 +19,9 @@ mongoosejs.com
 https://www.youtube.com/watch?v=ChVE-JbtYbM&t=23513s
 
 cors error : react & server port conflic 7:30:00
+
+
+
+===== for token generate 
+
+passport-jwt token
