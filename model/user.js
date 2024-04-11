@@ -16,6 +16,7 @@ const userSchema = new Schema({
     required: true,
   },
   password: { type: String, minLength:  6, required: true },
+  carts:[{type: Schema.Types.ObjectId,ref:'Product'}],
   token: { type: String },
 });
 

@@ -33,7 +33,7 @@ dotenv.config();
 
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await User.find().populate('carts');
     res.status(200).send({ data: users, message: "Data fetched successfully" });
   } catch (error) {
     res.status(404).send(error);
@@ -45,7 +45,7 @@ const getUsers = async (req, res) => {
   const id = req.params.id;
   console.log(id);
   try {
-    const users = await User.findOne({ _id: id });
+    const users = await User.findOne({ _id: id }).populate('carts');
     res.status(200).send({ data: users, message: "Data fetched successfully" });
   } catch (error) {
     res.status(404).send(error);
