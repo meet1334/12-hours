@@ -3,18 +3,19 @@ const morgan = require("morgan");
 const server = express();
 const cors = require("cors");
 const path = require("path");
-const productRouter = require("./routes/product");
-const userRouter = require("./routes/user");
-const authRouter = require("./routes/auth");
+const productRouter = require("./src/routes/product");
+const userRouter = require("./src/routes/user");
+const authRouter = require("./src/routes/auth");
 const dotenv = require("dotenv");
 const ejs = require("ejs");
+const multer = require("multer");
 
 dotenv.config();
 
 const port = process.env.PORT ?? 8000;
 const public_dir = process.env.PUBLIC_DIR ?? "public";
 const mongoose = require("mongoose");
-const { authMiddleware } = require("./controller/middleware/middleware");
+const { authMiddleware } = require("./src/middlewares/middleware/middleware");
 
 // db connection
 main().catch((err) => console.log(err));

@@ -96,6 +96,31 @@ const deleteUser = async (req, res) => {
   }
 };
 
+// upload images
+
+const uploadFile = async (req, res) => {
+  const file = req.file;
+  console.log(file,"file 786");
+try {
+
+  res.status(200).send({ data: file, message:"file upload successfully" });
+} catch (error) {
+  res.status(404).send(error);
+  console.log(error);
+}
+};
+const uploadMultiFiles = async (req, res) => {
+  const file = req.files;
+  console.log(file,"file 786");
+try {
+
+  res.status(200).send({ data: file, message:"files upload successfully" });
+} catch (error) {
+  res.status(404).send(error);
+  console.log(error);
+}
+};
+
 module.exports = {
   // createUsers,
   getAllUsers,
@@ -103,4 +128,6 @@ module.exports = {
   updatedUser,
   replaceUser,
   deleteUser,
+  uploadFile,
+  uploadMultiFiles
 };

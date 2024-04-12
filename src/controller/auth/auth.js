@@ -5,8 +5,9 @@ const User = model.User;
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const path = require("path");
+// const p = require('../../../')
 const privateKey = fs.readFileSync(
-  path.join(__dirname, "../../private.key"),
+  path.join(__dirname, "../../../private.key"),
   "utf-8"
 );
 const bcrypt = require("bcrypt");
