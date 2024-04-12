@@ -20,8 +20,11 @@ mongoosejs.com
 2. severside
 3. express-basic
 4. rest apis
-5. MVC
+5. MVC-basic
 6. connect-db
+7. ssr
+8. jwttoken
+9. advancenode
 
 https://www.youtube.com/watch?v=ChVE-JbtYbM&t=23513s
 
