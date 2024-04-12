@@ -6,6 +6,7 @@ const path = require("path");
 const productRouter = require("./src/routes/product");
 const userRouter = require("./src/routes/user");
 const authRouter = require("./src/routes/auth");
+const otherRouter = require("./src/routes/email");
 const dotenv = require("dotenv");
 const ejs = require("ejs");
 const multer = require("multer");
@@ -34,6 +35,7 @@ server.use(express.static(path.resolve(__dirname, public_dir)));
 
 // routes
 server.use("/api", authRouter.router);
+server.use("/api/",otherRouter.router); 
 server.use("/api/products", authMiddleware, productRouter.router);
 server.use("/api/users", authMiddleware, userRouter.router);
 
