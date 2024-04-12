@@ -25,6 +25,8 @@ mongoosejs.com
 7. ssr
 8. jwttoken
 9. advancenode
+10. email
+11. export sheet
 
 https://www.youtube.com/watch?v=ChVE-JbtYbM&t=23513s
 
