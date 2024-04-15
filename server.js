@@ -37,6 +37,9 @@ server.use(express.static(path.resolve(__dirname, public_dir)));
 server.use("/api", authRouter.router);
 server.use("/api/",otherRouter.router); 
 server.use("/api/products", authMiddleware, productRouter.router);
+
+// excel downloading with out auth gard
+
 server.use("/api/users", authMiddleware, userRouter.router);
 
 // listen server
