@@ -8,7 +8,9 @@ const userRouter = require("./src/routes/user");
 const authRouter = require("./src/routes/auth");
 const otherRouter = require("./src/routes/email");
 const socketRouter = require("./src/routes/socket");
+const streamRouter = require("./src/routes/stream");
 const dotenv = require("dotenv");
+const status = require('express-status-monitor');
 const ejs = require("ejs");
 const multer = require("multer");
 
@@ -58,9 +60,9 @@ server.use(express.static(path.resolve(__dirname, public_dir)));
 // routes
 
 // SOCKET IO SEVER CONNECTION
-
+server.use(status());
 server.use("/chat", socketRouter.router);
-
+server.use('/stream', streamRouter.router);
 server.use("/api", authRouter.router);
 server.use("/api/", otherRouter.router);
 server.use("/api/products", authMiddleware, productRouter.router);

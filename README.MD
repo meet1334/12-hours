@@ -40,3 +40,11 @@ passport-jwt token
 
 
 
+
+
+====== express-status-monitor
+
+
+- It is used to check the memory consumption of the file to read or write.
+- for use , run localhost:8080/status
+
